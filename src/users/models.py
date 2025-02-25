@@ -1,11 +1,36 @@
+import logging
+
 from uuid import uuid4
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 from utils.image_compression import compress
 
+
 DEFAULT_IMAGE_PATH = 'img/def.png'
+
+logger = logging.getLogger(__name__)
+
+def send_log(message, level='info'):
+    LEVEL_MAP = {
+        'debug': logging.DEBUG,
+        'info': logging.INFO,
+        'warning': logging.WARNING,
+        'error': logging.ERROR,
+        'critical': logging.CRITICAL,
+    }
+
+    try:
+        log_level = LEVEL_MAP[level.lower().strip()]
+    except KeyError:
+        raise ValueError(f'Invalid log level: {level}')
+    
+    current_time = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    message = f'{current_time}: {message}'
+
+    logger.log(log_level, message)
 
 
 class AppUser(AbstractUser):
@@ -84,20 +109,27 @@ class BaseProfile(models.Model):
         return self.user.username
     
     def save(self, *args, **kwargs):
-        if self.id:
+        send_log(f'Saving profile for {self.user.username}.', level='debug')
+
+        is_new = self._state.adding
+
+        if not is_new and self.image:
             try:
                 old_instance = type(self).objects.get(id=self.id)
                 if old_instance.image == self.image:
                     super().save(*args, **kwargs)
                     return
             except type(self).DoesNotExist:
-                pass
+                send_log(f'Instance with if {self.id} not found during update.', level='warning')
 
         if self.image and self.image != DEFAULT_IMAGE_PATH:
             try:
+                send_log(f'Compressing image for {self.user.username}.', level='debug')
                 self.image = compress(self.image)
+                send_log(f'Image successfully compressed for {self.user.username}.', level='debug')
             except Exception as error:
-                print(error)
+                send_log(f'Image compression failed for {self.user.username}: {error}.', level='error')
+                raise
 
         super().save(*args, **kwargs)
 

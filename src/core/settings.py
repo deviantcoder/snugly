@@ -93,6 +93,31 @@ DATABASES = {
 AUTH_USER_MODEL = 'users.AppUser'
 
 
+# Logging config
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'DEBUG', # or INFO
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/debug.log',
+        }
+    },
+    'loggers': {
+        'users.models': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False, # could be True
+        },
+    },
+}
+
 # Internationalization
 
 LANGUAGE_CODE = 'en-us'
