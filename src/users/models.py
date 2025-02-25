@@ -4,13 +4,13 @@ from django.contrib.auth.models import AbstractUser
 
 
 class AppUser(AbstractUser):
-    class Role(models.TextChoices):
+    class Roles(models.TextChoices):
         USER = ('user', 'Regular')
         MENTOR = ('mentor', 'Mentor')
         MANAGER = ('manager', 'Manager')
         ADMIN = ('admin', 'Admin')
 
-    role = models.CharField(max_length=50, choices=Role.choices, default=Role.USER)
+    role = models.CharField(max_length=50, choices=Roles.choices, default=Roles.USER)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -19,62 +19,45 @@ class AppUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    @property
-    def is_mentor(self):
-        return self.role == self.Role.MENTOR
-    
-    @property
-    def is_manager(self):
-        return self.role == self.Role.MANAGER
-    
-    @property
-    def is_admin(self):
-        return self.role == self.Role.ADMIN
-
     class Meta:
         ordering = ['-created']
 
     def save(self, *args, **kwargs):
-        if self.role == self.Role.MANAGER:
+        if self.role == self.Roles.MANAGER:
             self.is_staff = True
-        elif self.role == self.Role.ADMIN:
+        elif self.role == self.Roles.ADMIN:
             self.is_staff = True
             self.is_superuser = True
+        else:
+            self.is_staff = False
+            self.is_superuser = False
+
         return super().save(*args, **kwargs)
 
 
-class UserManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(role=AppUser.Role.USER)
+class AppUserManager(models.Manager):
+    def by_role(self, role):
+        return super().get_queryset().filter(role=role)
+    
+    def users(self):
+        return self.by_role(role=AppUser.Roles.USER)
+    
+    def mentors(self):
+        return self.by_role(role=AppUser.Roles.MENTOR)
+    
+    def managers(self):
+        return self.by_role(role=AppUser.Roles.MANAGER)
+    
+    def admins(self):
+        return self.by_role(role=AppUser.Roles.ADMIN)
     
 
-class MentorManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(role=AppUser.Role.MENTOR)
+class AppUserProxy(AppUser):
+    objects = AppUserManager()
+
+    def has_role(self, role):
+        return self.role == role
     
-
-class ManagerManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(role=AppUser.Role.MANAGER)
-
-
-class UserProxy(AppUser):
-    objects = UserManager()
-
-    class Meta:
-        proxy = True
-
-
-class MentorProxy(AppUser):
-    objects = MentorManager()
-
-    class Meta:
-        proxy = True
-
-
-class ManagerProxy(AppUser):
-    objects = ManagerManager()
-
     class Meta:
         proxy = True
 
