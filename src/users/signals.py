@@ -1,5 +1,6 @@
 import os
 import shutil
+import logging
 
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
@@ -7,8 +8,12 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from .models import UserProfile, MentorProfile, ManagerProfile
 
+from utils.logging import send_log
+
 User = get_user_model()
 Roles = User.Roles
+
+logger = logging.getLogger(__name__)
 
 
 @receiver(post_save, sender=User)
@@ -28,22 +33,19 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         try:
             if instance.role == Roles.USER:
-                print('\t*** CREATING USER PROFILE ***\t')
                 UserProfile.objects.create(
                     user=instance
                 )
             elif instance.role == Roles.MENTOR:
-                print('\t*** CREATING USER PROFILE ***\t')
                 MentorProfile.objects.create(
                     user=instance
                 )
             elif instance.role == Roles.MANAGER:
-                print('\t*** CREATING USER PROFILE ***\t')
                 ManagerProfile.objects.create(
                     user=instance
                 )
         except IntegrityError as error:
-            print(f'Failed to create profile for {instance.username}: {error}')
+            send_log(logger, f'Failed to create profile for {instance.username}: {error}', level='error')
 
 
 @receiver(post_delete, sender=UserProfile)
@@ -59,4 +61,4 @@ def delete_profile_media(sender, instance, **kwargs):
         if os.path.exists(path):
             shutil.rmtree(path)
     except Exception as error:
-        print(f'Error occured while deleting profile media: {error}')
+        send_log(logger, f'Error occured while deleting profile media: {error}', level='error')
