@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container styled-container card radius-md mt-4">
+<div class="container styled-container border-0 card radius-md mt-4">
     <div class="text-center">
         <h2>Sign Up as a <u><strong>Mentor</strong></u></h2>
     </div>
@@ -27,7 +27,7 @@
                     {% crispy form %}
         
                     <div class="text-center mt-3">
-                        <small>Already have an account? <a href="">Sign In</a></small>
+                        <small>Already have an account? <a href="{% url 'users:login' %}">Sign In</a></small>
                     </div>
         
                     <hr>

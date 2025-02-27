@@ -1,7 +1,36 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout, get_user_model
+from django.contrib import messages
 
 from .forms import UserCreationForm, MentorCreationForm
+
+User = get_user_model()
+
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if all([username, password]):
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Successfully logged in')
+                return redirect('/')
+            else:
+                messages.warning(request, 'Username or password is incorrect')
+                return redirect('users:login')
+        else:
+            messages.warning(request, 'Username or password is incorrect')
+            return redirect('users:login')
+
+    context = {}
+    return render(request, 'users/login.html', context)
 
 
 def register_choice(request):
