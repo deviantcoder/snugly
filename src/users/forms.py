@@ -1,9 +1,12 @@
 from django import forms
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Field
+
+from utils.send_verify_email import send_verify_email
 
 User = get_user_model()
 
@@ -60,12 +63,14 @@ class RoleBasedCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        if self.role:
-            user.role = self.role
-        else:
-            user.role = User.Roles.USER
+        user.role = self.role if self.role else User.Roles.USER
+
+        user.is_active = False
+
         if commit:
             user.save()
+            send_verify_email(user)
+
         return user
 
     def clean_email(self):

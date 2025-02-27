@@ -37,6 +37,8 @@ class AppUser(AbstractUser):
 
     role = models.CharField(max_length=50, choices=Roles.choices, default=Roles.USER)
 
+    email_verified = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     id = models.UUIDField(default=uuid4, unique=True, editable=False, primary_key=True)
