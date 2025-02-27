@@ -36,26 +36,43 @@ class RoleBasedCreationForm(UserCreationForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = self.form_action
-        self.helper.layout = Layout(
-            Row(
-                Column(Field('first_name', css_class='radius-md p-2', placeholder='John', required=True), css_class='form-group col-md-6 mb-0'),
-                Column(Field('last_name', css_class='radius-md p-2', placeholder='Doe', required=True), css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Row(
-                Column(Field('email', css_class='radius-md p-2', placeholder='johndoe@gmail.com', required=True), css_class='form-group col-md-6 mb-0'),
-                Column(Field('username', css_class='radius-md p-2', placeholder='johndoe', help_text='', required=True), css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Field('password1', css_class='radius-md p-2', placeholder='Enter password'),
-            Field('password2', css_class='radius-md p-2', placeholder='Confirm password'),
-            Row(
-                Column(
-                    Submit('submit', 'Sign Up', css_class='btn btn-success light-green border-0 hover-grow-sm radius-md pe-5 ps-5'),
-                    css_class='text-center'
+        if self.role == User.Roles.MENTOR:
+            self.helper.layout = Layout(
+                Row(
+                    Column(Field('first_name', css_class='radius-md p-2', placeholder='John', required=True), css_class='form-group col-md-6 mb-0'),
+                    Column(Field('last_name', css_class='radius-md p-2', placeholder='Doe', required=True), css_class='form-group col-md-6 mb-0'),
+                    css_class='form-row'
                 ),
+                Row(
+                    Column(Field('email', css_class='radius-md p-2', placeholder='johndoe@gmail.com', required=True), css_class='form-group col-md-6 mb-0'),
+                    Column(Field('username', css_class='radius-md p-2', placeholder='johndoe', help_text='', required=True), css_class='form-group col-md-6 mb-0'),
+                    css_class='form-row'
+                ),
+                Field('password1', css_class='radius-md p-2', placeholder='Enter password'),
+                Field('password2', css_class='radius-md p-2', placeholder='Confirm password'),
+                Row(
+                    Column(
+                        Submit('submit', 'Sign Up', css_class='btn btn-success light-green border-0 hover-grow-sm radius-md pe-5 ps-5'),
+                        css_class='text-center'
+                    ),
+                )
             )
-        )
+        else:
+            self.helper.layout = Layout(
+                Row(
+                    Column(Field('email', css_class='radius-md p-2', placeholder='johndoe@gmail.com', required=True), css_class='form-group col-md-6 mb-0'),
+                    Column(Field('username', css_class='radius-md p-2', placeholder='johndoe', help_text='', required=True), css_class='form-group col-md-6 mb-0'),
+                    css_class='form-row'
+                ),
+                Field('password1', css_class='radius-md p-2', placeholder='Enter password'),
+                Field('password2', css_class='radius-md p-2', placeholder='Confirm password'),
+                Row(
+                    Column(
+                        Submit('submit', 'Sign Up', css_class='btn btn-success light-green border-0 hover-grow-sm radius-md pe-5 ps-5'),
+                        css_class='text-center'
+                    ),
+                )
+            )
 
         for fieldname in ('username', 'password1', 'password2'):
             self.fields[fieldname].help_text = None
