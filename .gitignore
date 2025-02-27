@@ -11,3 +11,8 @@ __pycache__/
 
 *.log
 notes.txt
+
+src/staticfiles/vendors
+
+local_cdn/
+vendor/

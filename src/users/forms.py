@@ -19,9 +19,11 @@ class RoleBasedCreationForm(UserCreationForm):
         __init__(*args, **kwargs):
             Initializes the form with custom layout and field properties using crispy forms.
         save(commit=True):
-            Saves the user instance with the assigned role.
+            Saves the user instance with the assigned role and sends a verification email.
         clean_email():
             Validates that the email is unique.
+        clean_username():
+            Validates that the username is unique and strips any leading/trailing whitespace.
     """
 
     role = None

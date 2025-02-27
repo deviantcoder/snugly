@@ -33,7 +33,10 @@ def login_user(request):
             messages.warning(request, 'Username or password is incorrect')
             return redirect('users:login')
 
-    context = {}
+    context = {
+        'head_title': 'Sign In'
+    }
+
     return render(request, 'users/login.html', context)
 
 
@@ -44,7 +47,8 @@ def register_choice(request):
     context = {
         'head_title': 'Sign Up Choice'
     }
-    return render(request, 'users/register_choice.html')
+
+    return render(request, 'users/register_choice.html', context)
 
 
 def register_user(request):
@@ -63,6 +67,7 @@ def register_user(request):
         'form': form,
         'head_title': 'Sign Up'
     }
+
     return render(request, 'users/register_user.html', context)
 
 
@@ -82,6 +87,7 @@ def register_mentor(request):
         'form': form,
         'head_title': 'Sign Up as Mentor'
     }
+    
     return render(request, 'users/register_mentor.html', context)
 
 
@@ -98,4 +104,5 @@ def verify_email(request, uidb64, token):
             user.email_verified = True
         user.save()
         return redirect('users:login')
+    
     return render(request, 'users/emails/verify_email_failed.html')

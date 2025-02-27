@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # apps
 
     'users.apps.UsersConfig',
+    'commands.apps.CommandsConfig',
 ]
 
 MIDDLEWARE = [
@@ -155,10 +156,18 @@ USE_TZ = True
 # Static files
 
 STATIC_URL = 'static/'
-STATIC_ROOT = 'staticfiles'
+
+STATICFILES_BASE_DIR = BASE_DIR / 'static'
+STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
+
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / 'vendor'
+
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    STATICFILES_BASE_DIR,
 ]
+
+STATIC_ROOT = 'local_cdn'
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'

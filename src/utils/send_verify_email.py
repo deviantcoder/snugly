@@ -7,6 +7,16 @@ from django.conf import settings
 
 
 def send_verify_email(user):
+    """
+    Sends a verification email to the specified user.
+
+    Generates a unique verification URL for the user and sends
+    an email containing this URL to the user's registered email address.
+
+    Args:
+        user (User): The user object to whom the verification email will be sent.
+    """
+
     token_generator = PasswordResetTokenGenerator()
 
     uid = urlsafe_base64_encode(force_bytes(user.pk))
