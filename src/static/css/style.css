@@ -40,6 +40,9 @@ body {
     text-align: center;
     padding-bottom: 20px;
 }
+.light-pink {
+    background-color: #f1d1f1 !important;
+}
 .light-rose {
     background-color: #db8c87 !important;
 }
@@ -77,41 +80,6 @@ body {
     font-size: 0.9rem;
 }
 
-.gradient-pink {
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    transition: box-shadow 0.2s ease;
-}
-
-.gradient-pink:hover {
-    box-shadow: 0 4px 10px rgba(255, 117, 140, 0.4);
-}
-
-.gradient-blue {
-    background: linear-gradient(135deg, #36d1dc, #5b86e5);
-    transition: box-shadow 0.2s ease;
-}
-
-.gradient-blue:hover {
-    box-shadow: 0 4px 10px rgba(91, 134, 229, 0.4);
-}
-
-.gradient-orange {
-    background: linear-gradient(135deg, #ff9a8b, #d27153);
-    transition: box-shadow 0.2s ease;
-}
-
-.gradient-orange:hover {
-    box-shadow: 0 4px 10px rgba(255, 154, 139, 0.4);
-}
-
-.gradient-purple {
-    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-    transition: box-shadow 0.2s ease;
-}
-
-.gradient-purple:hover {
-    box-shadow: 0 4px 10px rgba(161, 140, 209, 0.4);
-}
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
     filter: invert(100%);

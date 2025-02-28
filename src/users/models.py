@@ -192,7 +192,6 @@ class MentorProfile(BaseProfile):
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE, related_name='mentor_profile')
     bio = models.TextField(null=True, blank=True)
 
-    specialization = models.CharField(max_length=100, null=True, blank=True)
     experience = models.TextField(null=True, blank=True)
     availability = models.CharField(max_length=50, null=True, blank=True)
 
@@ -205,6 +204,20 @@ class MentorProfile(BaseProfile):
     @property
     def username(self):
         return self.user.username
+    
+    @property
+    def all_skills(self):
+        return self.skills.all()
+    
+
+class MentorSkill(models.Model):
+    profile = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, related_name='skills')
+    name = models.CharField(max_length=100)
+    
+    id = models.UUIDField(default=uuid4, unique=True, editable=False, primary_key=True)
+
+    def __str__(self):
+        return self.name
 
 
 class ManagerProfile(BaseProfile):

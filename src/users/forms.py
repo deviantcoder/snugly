@@ -174,7 +174,7 @@ class BaseProfileForm(forms.ModelForm):
 class MentorProfileForm(BaseProfileForm):
     class Meta:
         model = MentorProfile
-        fields = ('image', 'bio', 'specialization', 'experience', 'availability')
+        fields = ('image', 'bio', 'experience', 'availability')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -182,7 +182,6 @@ class MentorProfileForm(BaseProfileForm):
         mentor_fields = Layout(
             Field('image', css_class='radius-md p-2'),
             Field('bio', css_class='radius-md p-2', placeholder='Tell us a bit about yourself'),
-            Field('specialization', css_class='radius-md p-2', placeholder='Your specialization'),
             Field('experience', css_class='radius-md p-2', placeholder='What experience do you have?'),
             Field('availability', css_class='radius-md p-2', placeholder='What time are you available?'),
         )

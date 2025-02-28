@@ -24,18 +24,28 @@ class AppUserAdmin(UserAdmin):
 
 @admin.register(models.UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'user__email_verified', 'user__created')
+    list_display = ('user', 'user__created')
     search_fields = ('user__username',)
-
-
-@admin.register(models.MentorProfile)
-class MentorProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'specialization', 'user__email_verified', 'verified', 'image')
-    list_filter = ('verified',)
-    search_fields = ('user__username', 'specialization')
 
 
 @admin.register(models.ManagerProfile)
 class ManagerProfileAdmin(admin.ModelAdmin):
-    list_display = ('user',)
+    list_display = ('user', 'user__created')
     search_fields = ('user__username',)
+
+
+admin.site.register(models.MentorSkill)
+
+
+class MentorSkillInline(admin.StackedInline):
+    model = models.MentorSkill
+    extra = 1
+
+
+@admin.register(models.MentorProfile)
+class MentorProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'verified', 'image', 'user__created')
+    list_filter = ('verified',)
+    search_fields = ('user__username', 'specialization')
+
+    inlines = [MentorSkillInline]
