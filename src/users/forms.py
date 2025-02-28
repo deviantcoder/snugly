@@ -4,9 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column, Field
+from crispy_forms.layout import Layout, Submit, Row, Column, Field, HTML
 
 from utils.send_verify_email import send_verify_email
+
+from .models import MentorProfile, UserProfile
 
 User = get_user_model()
 
@@ -137,3 +139,68 @@ class MentorCreationForm(RoleBasedCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+
+
+class BaseProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        
+        self.base_layout = Layout(
+            Row(
+                Column(
+                    Submit('submit', 'Save Changes', css_class='btn btn-success light-green border-0 hover-grow-sm radius-md pe-5 ps-5'),
+                    HTML(f'<a href="" class="btn btn-secondary border-0 hover-grow-sm radius-md pe-5 ps-5">Cancel</a>'),
+                    css_class='text-center'
+                ),
+            )
+        )
+
+        self.helper.layout = self.base_layout
+
+    def append_fields(self, fields_layout):
+        """
+        Helper method to append fields to the base layout.
+        """
+
+        self.helper.layout = Layout(
+            fields_layout,
+            self.base_layout
+        )
+
+
+class MentorProfileForm(BaseProfileForm):
+    class Meta:
+        model = MentorProfile
+        fields = ('image', 'bio', 'specialization', 'experience', 'availability')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        mentor_fields = Layout(
+            Field('image', css_class='radius-md p-2'),
+            Field('bio', css_class='radius-md p-2', placeholder='Tell us a bit about yourself'),
+            Field('specialization', css_class='radius-md p-2', placeholder='Your specialization'),
+            Field('experience', css_class='radius-md p-2', placeholder='What experience do you have?'),
+            Field('availability', css_class='radius-md p-2', placeholder='What time are you available?'),
+        )
+
+        self.append_fields(mentor_fields)
+
+
+class UserProfileForm(BaseProfileForm):
+    class Meta:
+        model = UserProfile
+        fields = ('image', 'bio')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        user_fields = Layout(
+            Field('image', css_class='radius-md p-2'),
+            Field('bio', css_class='radius-md p-2', placeholder='Tell us a bit about yourself'),
+        )
+
+        self.append_fields(user_fields)

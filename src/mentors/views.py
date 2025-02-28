@@ -15,6 +15,6 @@ def mentor_list(request):
 def mentor_profile_overview(request, username):
     mentor = AppUserProxy.objects.get(username=username)
     context = {
-        'mentor': mentor.mentorprofile,
+        'profile': mentor.profile,
     }
     return render(request, 'mentors/mentor_profile_overview.html', context)

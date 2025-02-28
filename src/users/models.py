@@ -64,6 +64,25 @@ class AppUser(AbstractUser):
             self.is_superuser = False
 
         return super().save(*args, **kwargs)
+    
+    @property
+    def profile(self):
+        if self.role == self.Roles.USER:
+            try:
+                return self.user_profile
+            except UserProfile.DoesNotExist:
+                return None
+        elif self.role == self.Roles.MENTOR:
+            try:
+                return self.mentor_profile
+            except MentorProfile.DoesNotExist:
+                return None
+        elif self.role == self.Roles.MANAGER:
+            try:
+                return self.manager_profile
+            except ManagerProfile.DoesNotExist:
+                return None
+        return None
 
 
 class AppUserManager(models.Manager):
@@ -124,7 +143,7 @@ class BaseProfile(models.Model):
         save(*args, **kwargs): Overrides the default save method to handle image compression and logging.
     """
 
-    user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, related_name='profile')
     image = models.ImageField(default=DEFAULT_IMAGE_PATH, upload_to=upload_to, blank=True)
 
     id = models.UUIDField(default=uuid4, unique=True, editable=False, primary_key=True)
@@ -160,8 +179,9 @@ class BaseProfile(models.Model):
 class UserProfile(BaseProfile):
     """
     UserProfile model that extends the BaseProfile.
-    """
 
+    """
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, related_name='user_profile')
     bio = models.TextField(null=True, blank=True)
 
 
@@ -169,7 +189,7 @@ class MentorProfile(BaseProfile):
     """
     MentorProfile model that extends the BaseProfile.
     """
-
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, related_name='mentor_profile')
     bio = models.TextField(null=True, blank=True)
 
     specialization = models.CharField(max_length=100, null=True, blank=True)
@@ -192,4 +212,5 @@ class ManagerProfile(BaseProfile):
     ManagerProfile model that extends BaseProfile.
     """
 
+    user = models.OneToOneField(AppUser, on_delete=models.CASCADE, related_name='manager_profile')
     bio = models.TextField(null=True, blank=True)
