@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.welcome_view, name='welcome_page'),
     path('users/', include('users.urls')),
+    path('', include('mentors.urls')),
 ]
 
 if settings.DEBUG:

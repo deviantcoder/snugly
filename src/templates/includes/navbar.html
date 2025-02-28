@@ -11,8 +11,12 @@
                         Home</a></li>
                 <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-chat-dots"></i>
                         Chats</a></li>
-                <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-person-check"></i>
-                        Mentors</a></li>
+                <li class="nav-item">
+                    <a class="nav-link hover-grow-sm" href="{% url 'mentors:mentor_list' %}">
+                        <i class="bi bi-person-check"></i>
+                        Mentors
+                    </a>
+                </li>
                 <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-person"></i>
                         Profile</a></li>
                 <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-columns"></i>
@@ -20,7 +24,7 @@
                 {% endif %}
                 <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-question-circle"></i>
                         Help</a></li>
-            </ul>                
+            </ul>
         </div>
     </div>
 </nav>
