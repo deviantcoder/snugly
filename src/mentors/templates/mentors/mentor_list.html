@@ -28,7 +28,19 @@
 
                         <h5 class="mt-3">{{ mentor.full_name }}</h5>
                         <p class="text-muted"><i class="bi bi-star-fill text-warning"></i> 4.8 (120 reviews)</p>
-                        <p><i class="bi bi-bookmark-heart"></i> Emotional Support, Self-Confidence</p>
+                        
+                        <div>
+                            {% for skill in mentor.all_skills|slice:3 %}
+                                <span class="badge bg-primary mb-1 light-pink bg-opacity-75 text-dark hover-grow-sm radius-md px-3 py-2">
+                                    {{ skill.name }}
+                                </span>
+                            {% endfor %}
+                            {% if mentor.all_skills|length > 3 %}
+                                <small class="text-muted">and more...</small>
+                            {% endif %}
+                            </p>
+                        </div>
+                        
                         <div class="d-flex gap-2">
                             <a href="#" class="btn btn-primary border-0 hover-grow-sm light-rose radius-md w-50">View</a>
                             <button

@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 from users.models import AppUserProxy
+from users.forms import MentorProfileForm
 
-
+from utils.htmx_response import htmx_http_response
 
 def mentor_list(request):
     mentors = AppUserProxy.objects.mentors()
@@ -31,3 +34,49 @@ def mentor_skills_list(request, username):
     }
 
     return render(request, 'mentors/partials/skills_list.html', context)
+
+
+@login_required(login_url='users:login')
+def mentor_dashboard(request):
+    mentor = request.user
+
+    context = {
+        'mentor': mentor,
+        'head_title': 'Dashboard',
+    }
+
+    return render(request, 'mentors/mentor_dashboard.html', context)
+
+
+@login_required(login_url='users:login')
+def edit_profile(request):
+    mentor = request.user
+
+    form = MentorProfileForm(instance=mentor.profile)
+
+    if request.method == 'POST' and request.htmx:
+        form = MentorProfileForm(request.POST, request.FILES, instance=mentor.profile)
+        if form.is_valid():
+            form.save()
+            
+            message = {
+                'text': 'Profile was updated',
+                'type': 'success'
+            }
+
+            return htmx_http_response(204, message, event='profileInfoChanged')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'mentors/edit_profile.html', context)
+
+
+@login_required(login_url='users:login')
+def mentor_profile_info(request):
+    mentor = request.user
+    context = {
+        'mentor': mentor,
+    }
+    return render(request, 'mentors/partials/mentor_profile_info.html', context)

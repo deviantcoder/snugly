@@ -2,6 +2,7 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Field, HTML
@@ -142,22 +143,29 @@ class MentorCreationForm(RoleBasedCreationForm):
 
 
 class BaseProfileForm(forms.ModelForm):
+    form_url_name = None
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        
-        self.base_layout = Layout(
-            Row(
-                Column(
-                    Submit('submit', 'Save Changes', css_class='btn btn-success light-green border-0 hover-grow-sm radius-md pe-5 ps-5'),
-                    HTML(f'<a href="" class="btn btn-secondary border-0 hover-grow-sm radius-md pe-5 ps-5">Cancel</a>'),
-                    css_class='text-center'
-                ),
-            )
-        )
 
+        if self.form_url_name:
+            self.helper.attrs = {
+                'hx-post': reverse(self.form_url_name),
+                'hx-encoding': 'multipart/form-data',
+                'hx-trigger': 'submit',
+            }
+        else:
+            raise ValueError("Subclasses of BaseProfileForm must define 'form_url_name'")
+
+        self.base_layout = Layout(
+            HTML('<div class="modal-footer border-0 pt-0 px-4">'),
+            Submit('submit', 'Save', css_class='btn btn-primary radius-md px-4 fw-medium', css_id='submit-btn'),
+            HTML('<button type="button" class="btn btn-outline-secondary radius-md px-4 fw-medium" data-bs-dismiss="modal"><i class="bi bi-x-circle me-2"></i> Close</button>'),
+            HTML('</div>')
+        )
         self.helper.layout = self.base_layout
 
     def append_fields(self, fields_layout):
@@ -172,6 +180,8 @@ class BaseProfileForm(forms.ModelForm):
 
 
 class MentorProfileForm(BaseProfileForm):
+    form_url_name = 'mentors:edit_profile'
+
     class Meta:
         model = MentorProfile
         fields = ('image', 'bio', 'experience', 'availability')
@@ -180,16 +190,18 @@ class MentorProfileForm(BaseProfileForm):
         super().__init__(*args, **kwargs)
 
         mentor_fields = Layout(
-            Field('image', css_class='radius-md p-2'),
-            Field('bio', css_class='radius-md p-2', placeholder='Tell us a bit about yourself'),
-            Field('experience', css_class='radius-md p-2', placeholder='What experience do you have?'),
-            Field('availability', css_class='radius-md p-2', placeholder='What time are you available?'),
+            Field('image', css_class='form-control rounded-2 p-2'),
+            Field('bio', css_class='form-control rounded-2 p-2', placeholder='Tell us a bit about yourself'),
+            Field('experience', css_class='form-control rounded-2 p-2', placeholder='What experience do you have?'),
+            Field('availability', css_class='form-control rounded-2 p-2', placeholder='What time are you available?'),
         )
 
         self.append_fields(mentor_fields)
 
 
 class UserProfileForm(BaseProfileForm):
+    form_url_name = 'users:edit_profile'
+
     class Meta:
         model = UserProfile
         fields = ('image', 'bio')
@@ -198,8 +210,8 @@ class UserProfileForm(BaseProfileForm):
         super().__init__(*args, **kwargs)
 
         user_fields = Layout(
-            Field('image', css_class='radius-md p-2'),
-            Field('bio', css_class='radius-md p-2', placeholder='Tell us a bit about yourself'),
+            Field('image', css_class='form-control rounded-2 p-2'),
+            Field('bio', css_class='form-control rounded-2 p-2', placeholder='Tell us a bit about yourself'),
         )
-
+        
         self.append_fields(user_fields)

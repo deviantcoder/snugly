@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block head_title %}
+{{ head_title }}
+{% endblock head_title %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between">
+        <h2>Welcome back, <strong>{{ mentor.first_name }}</strong>!</h2>
+
+        <button
+            type="button"
+            class="btn btn-primary light-rose hover-grow-sm border-0 radius-md"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+            hx-get="{% url 'mentors:edit_profile' %}"
+            hx-target="#dialog"
+        >
+            <i class="bi bi-pencil"></i>
+            Edit Profile
+        </button>
+        
+    </div>
+
+    <div hx-get="{% url 'mentors:mentor_profile_info' %}" hx-trigger="load, profileInfoChanged from:body">
+    </div>
+
+    <div class="card mt-4 p-3 border-0 radius-md">
+        <h4><i class="bi bi-clipboard-check"></i> User Requests</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Topic</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice</td>
+                    <td>Looking for emotional support</td>
+                    <td>Feb 16, 2025</td>
+                    <td>
+                        <button class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Accept</button>
+                        <button class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Decline</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>John</td>
+                    <td>Need guidance on career</td>
+                    <td>Feb 15, 2025</td>
+                    <td>
+                        <button class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Accept</button>
+                        <button class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Decline</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- modal should be here -->
+        <div class="text-center mt-3">
+            <button class="btn btn-outline-secondary radius-md"><i class="bi bi-clipboard-check"></i> View All</button>
+        </div>
+    </div>
+
+    <div class="card mt-4 p-3 border-0 radius-md shadow-sm">
+        <h4><i class="bi bi-calendar-check"></i> Upcoming Sessions</h4>
+
+        <table class="table table-striped mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Date & Time</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Feb 20, 2025 - 14:00</td>
+                    <td><a href="#" class="text-decoration-none"><i class="bi bi-person-circle"></i> Alice Johnson</a>
+                    </td>
+                    <td><span class="badge bg-success">Upcoming</span></td>
+                    <td>
+                        <button class="btn btn-outline-primary btn-sm"><i class="bi bi-chat-dots"></i> Start
+                            Chat</button>
+                        <button class="btn btn-outline-success btn-sm"><i class="bi bi-check-circle"></i> Mark as
+                            Completed</button>
+                        <button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i> Cancel</button>
+                        <button class="btn btn-outline-dark btn-sm"><i class="bi bi-eye"></i> View Details</button>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Feb 21, 2025 - 16:30</td>
+                    <td><a href="#" class="text-decoration-none"><i class="bi bi-person-circle"></i> Mark Lee</a></td>
+                    <td><span class="badge bg-danger text-white">Cancelled</span></td>
+                    <td>
+                        <button class="btn btn-outline-primary btn-sm disabled"><i class="bi bi-chat-dots"></i> Start
+                            Chat</button>
+                        <button class="btn btn-outline-success btn-sm disabled"><i class="bi bi-check-circle"></i> Mark
+                            as Completed</button>
+                        <button class="btn btn-outline-danger btn-sm disabled"><i class="bi bi-x-circle"></i>
+                            Cancel</button>
+                        <button class="btn btn-outline-dark btn-sm"><i class="bi bi-eye"></i> View Details</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Feb 18, 2025 - 10:00</td>
+                    <td><a href="#" class="text-decoration-none"><i class="bi bi-person-circle"></i> Emma Davis</a></td>
+                    <td><span class="badge bg-secondary">Completed</span></td>
+                    <td>
+                        <button class="btn btn-outline-primary btn-sm disabled"><i class="bi bi-chat-dots"></i> Start
+                            Chat</button>
+                        <button class="btn btn-outline-success btn-sm disabled"><i class="bi bi-check-circle"></i> Mark
+                            as Completed</button>
+                        <button class="btn btn-outline-danger btn-sm disabled"><i class="bi bi-x-circle"></i>
+                            Cancel</button>
+                        <button class="btn btn-outline-dark btn-sm"><i class="bi bi-eye"></i> View Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="card mt-4 p-3 border-0 radius-md">
+        <h4><i class="bi bi-chat-left-text"></i> Active Sessions</h4>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Chat with Alice
+                <a href="#" class="btn btn-outline-primary btn-sm radius-md"><i class="bi bi-chat-dots"></i> Open
+                    Chat</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Chat with John
+                <a href="#" class="btn btn-outline-primary btn-sm radius-md"><i class="bi bi-chat-dots"></i> Open
+                    Chat</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card mt-4 p-3 border-0 radius-md">
+        <h4><i class="bi bi-clock-history"></i> Past Sessions</h4>
+        <ul class="list-group">
+            <li class="list-group-item">Chat with Sarah – <span class="text-muted">Feb 10, 2025</span></li>
+            <li class="list-group-item">Chat with Mike – <span class="text-muted">Feb 8, 2025</span></li>
+        </ul>
+        <!-- modal should be here -->
+        <div class="text-center mt-3">
+            <button class="btn btn-outline-secondary radius-md mt-2"><i class="bi bi-folder"></i> View Full
+                History</button>
+        </div>
+    </div>
+
+    <div class="card mt-4 p-3 border-0 radius-md shadow-sm">
+        <h4><i class="bi bi-star-fill"></i> My Rating</h4>
+
+        <p class="h5"><i class="bi bi-star-fill text-warning"></i> 4.8 / 5</p>
+        <p class="text-muted">Based on <strong>56 reviews</strong></p>
+
+        <table class="table table-striped mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Rating</th>
+                    <th>Count</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5 <i class="bi bi-star-fill text-warning"></i></td>
+                    <td>42</td>
+                    <td>75%</td>
+                </tr>
+                <tr>
+                    <td>4 <i class="bi bi-star-fill text-warning"></i></td>
+                    <td>8</td>
+                    <td>15%</td>
+                </tr>
+                <tr>
+                    <td>3 <i class="bi bi-star-fill text-warning"></i></td>
+                    <td>3</td>
+                    <td>5%</td>
+                </tr>
+                <tr>
+                    <td>2 <i class="bi bi-star-fill text-warning"></i></td>
+                    <td>2</td>
+                    <td>3%</td>
+                </tr>
+                <tr>
+                    <td>1 <i class="bi bi-star-fill text-warning"></i></td>
+                    <td>1</td>
+                    <td>2%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- modal should be here -->
+        <div class="text-center mt-3">
+            <button class="btn btn-outline-secondary radius-md"><i class="bi bi-chat-left-quote"></i> View
+                Reviews</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}
