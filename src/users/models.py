@@ -59,11 +59,14 @@ class AppUser(AbstractUser):
         elif self.role == self.Roles.ADMIN:
             self.is_staff = True
             self.is_superuser = True
+        elif self.is_superuser:  # Respect createsuperuser’s intent
+            self.is_staff = True
+            self.role = self.Roles.ADMIN  # Optional: Sync role with superuser status
         else:
             self.is_staff = False
             self.is_superuser = False
-
-        return super().save(*args, **kwargs)
+            
+        super().save(*args, **kwargs)
     
     @property
     def profile(self):
