@@ -6,6 +6,7 @@ from users.forms import MentorProfileForm
 
 from utils.htmx_response import htmx_http_response
 
+
 def mentor_list(request):
     mentors = AppUserProxy.objects.mentors()
     context = {
