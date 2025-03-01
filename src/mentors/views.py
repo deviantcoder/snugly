@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from users.models import AppUserProxy
-from users.forms import MentorProfileForm
+from users_auth.models import AppUserProxy
+from users_auth.forms import MentorProfileForm
 
 from utils.htmx_response import htmx_http_response
 

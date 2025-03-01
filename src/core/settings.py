@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # apps
 
-    'users.apps.UsersConfig',
+    'users_auth.apps.UsersAuthConfig',
     'mentors.apps.MentorsConfig',
     'commands.apps.CommandsConfig',
 ]
@@ -116,7 +116,7 @@ DATABASES = {
 
 # Auth config
 
-AUTH_USER_MODEL = 'users.AppUser'
+AUTH_USER_MODEL = 'users_auth.AppUser'
 
 
 # Logging config
@@ -136,7 +136,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'users.models': {
+        'users_auth.models': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': False, # could be True

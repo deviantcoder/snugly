@@ -59,9 +59,9 @@ class AppUser(AbstractUser):
         elif self.role == self.Roles.ADMIN:
             self.is_staff = True
             self.is_superuser = True
-        elif self.is_superuser:  # Respect createsuperuser’s intent
+        elif self.is_superuser:
             self.is_staff = True
-            self.role = self.Roles.ADMIN  # Optional: Sync role with superuser status
+            self.role = self.Roles.ADMIN
         else:
             self.is_staff = False
             self.is_superuser = False
