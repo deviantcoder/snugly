@@ -5,9 +5,9 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-=mc8tp$2qd(%*8&9i$&xjwli5sg#0oi6p26hofcx910w!7iy15'
+SECRET_KEY = config('SECRET_KEY', cast=str)
 
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = []
 
