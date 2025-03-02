@@ -1,23 +1,23 @@
 from django.shortcuts import render, redirect
 
-from .forms import MentorCreationForm
+from .forms import UserCreationForm
 
 
-def register_mentor(request):
+def register_user(request):
     if request.user.is_authenticated:
         return redirect('/')
 
     if request.method == 'POST':
-        form = MentorCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return render(request, 'accounts/emails/verify_email_sent.html', {'title': 'Email Sent'})
     else:
-        form = MentorCreationForm()
+        form = UserCreationForm()
 
     context = {
         'form': form,
-        'title': 'Sign Up as Mentor'
+        'title': 'Sign Up'
     }
-    
-    return render(request, 'mentors/register_mentor.html', context)
+
+    return render(request, 'users/register_user.html', context)

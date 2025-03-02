@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+
+    <h1>Sign Up Choice</h1>
+
+    <div>
+        <a href="{% url 'users:register_user' %}">Regular</a>
+        <a href="{% url 'mentors:register_mentor' %}">Mentor</a>
+    </div>
+    
+{% endblock content %}

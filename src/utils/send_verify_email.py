@@ -22,11 +22,11 @@ def send_verify_email(user):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = token_generator.make_token(user)
     domain = settings.DOMAIN
-    verify_url = f'{domain}/users/verify-email/{uid}/{token}/'
+    verify_url = f'{domain}/accounts/verify-email/{uid}/{token}/'
 
     subject = 'Verify your email address'
     message = render_to_string(
-        'users/emails/verify_email.html',
+        'accounts/emails/verify_email.html',
         {
             'user': user,
             'verify_url': verify_url,

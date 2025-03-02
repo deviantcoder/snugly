@@ -1,13 +1,13 @@
 from pathlib import Path
-from decouple import config
 
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = config('SECRET_KEY', cast=str)
+SECRET_KEY = 'django-insecure-=mc8tp$2qd(%*8&9i$&xjwli5sg#0oi6p26hofcx910w!7iy15'
 
-DEBUG = config('DEBUG', cast=bool, default=True)
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -40,12 +40,13 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'crispy_bootstrap5',
-    'django_htmx',
 
     # apps
-
-    'users_auth.apps.UsersAuthConfig',
+    
+    'accounts.apps.AccountsConfig',
+    'users.apps.UsersConfig',
     'mentors.apps.MentorsConfig',
+    'managers.apps.ManagersConfig',
     'commands.apps.CommandsConfig',
 ]
 
@@ -69,7 +70,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
+            BASE_DIR / 'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -113,11 +114,9 @@ DATABASES = {
 #     },
 # ]
 
-
 # Auth config
 
-AUTH_USER_MODEL = 'users_auth.AppUser'
-
+AUTH_USER_MODEL = 'accounts.AppUser'
 
 # Logging config
 
@@ -136,7 +135,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'users_auth.models': {
+        'accounts.models': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': False, # could be True
@@ -170,7 +169,7 @@ STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
 STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / 'vendor'
 
 STATICFILES_DIRS = [
-    STATICFILES_BASE_DIR,
+    STATICFILES_BASE_DIR
 ]
 
 STATIC_ROOT = 'local_cdn'
@@ -178,6 +177,7 @@ STATIC_ROOT = 'local_cdn'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 

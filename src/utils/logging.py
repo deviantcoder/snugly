@@ -3,7 +3,7 @@ import logging
 from django.utils import timezone
 
 
-def send_log(logger, message, level='info'):
+def send_log(logger: logging.Logger, message: str, level: str = 'info'):
     """
     Sends a log message to the specified logger with the given log level.
     Args:
@@ -16,7 +16,7 @@ def send_log(logger, message, level='info'):
     Example:
         send_log(logger, 'This is a test message', 'warning')
     """
-    
+
     LEVEL_MAP = {
         'debug': logging.DEBUG,
         'info': logging.INFO,
@@ -31,6 +31,6 @@ def send_log(logger, message, level='info'):
         raise ValueError(f'Invalid log level: {level}')
     
     current_time = timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-    message = f'{current_time}: {message}'
+    message = f'[{current_time}] {message}'
 
-    logger.log(log_level, message)
+    return logger.log(log_level, message)

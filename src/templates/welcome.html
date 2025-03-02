@@ -1,76 +1,14 @@
 {% extends 'base.html' %}
 
-{% block head_title %}
-{{ head_title }}
-{% endblock head_title %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 
 {% block content %}
-<div class="container hero mt-5">
-    <i class="bi bi-chat-heart h1"></i>
-    <h1>Welcome to <strong>Snugly</strong>!</h1>
-    <p>"A place to rest your soul"</p>
+    <h1>Welcome!</h1>
 
-    <a href="{% url 'users:login' %}" class="btn btn-primary light-rose hover-grow-md border-0 btn-custom radius-md me-1">Log In</a>
-    <a href="{% url 'users:register_choice' %}" class="btn btn-primary dimmed-blue hover-grow-md border-0 btn-custom radius-md">Sign Up</a>
-</div>
-<div class="container styled-container text-center">
-    <h2>Why Snugly?</h2>
-    <div class="row mt-4">
-        <div class="col-md-4 mb-2 hover-grow-sm">
-            <div class="card border-0 radius-md shadow-lg">
-                <i class="bi bi-chat-heart h1"></i>
-                <h5 class="mt-3">Kind Conversations</h5>
-                <p>Talk with people who truly listen.</p>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2 hover-grow-sm">
-            <div class="card border-0 radius-md shadow-lg">
-                <i class="bi bi-people h1"></i>
-                <h5 class="mt-3">Supportive Mentors</h5>
-                <p>Get guidance from experienced mentors.</p>
-            </div>
-        </div>
-        <div class="col-md-4 mb-2 hover-grow-sm">
-            <div class="card border-0 radius-md shadow-lg">
-                <i class="bi bi-shield-check h1"></i>
-                <h5 class="mt-3">Safe & Private</h5>
-                <p>Your well-being and privacy come first.</p>
-            </div>
-        </div>
+    <div>
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Sign In</a>
+        <a href="{% url 'accounts:register_choice' %}" class="btn btn-primary">Sign Up</a>
     </div>
-</div>
-<div class="container styled-container">
-    <div class="text-center" style="margin-bottom: 25px !important;">
-        <h2 class="mb-2">How Snugly Works</h2>
-    </div>
-    <div id="snuglyCarousel" class="carousel slide text-center" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <i class="bi bi-pencil-square h1"></i>
-                <h5 class="mt-3">Submit a Request</h5>
-                <p>Describe your situation, and a mentor will reach out to you.</p>
-            </div>
-            <div class="carousel-item">
-                <i class="bi bi-person-check h1"></i>
-                <h5 class="mt-3">Choose a Mentor</h5>
-                <p>Pick a mentor from the list based on their rating and experience.</p>
-            </div>
-            <div class="carousel-item">
-                <i class="bi bi-chat-dots h1"></i>
-                <h5 class="mt-3">Start a Conversation</h5>
-                <p>Chat with your mentor in a safe and private space.</p>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#snuglyCarousel"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#snuglyCarousel"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
 {% endblock content %}
