@@ -27,8 +27,6 @@ class MentorCreationForm(BaseAppUserCreationForm):
 
 
 class MentorProfileForm(BaseProfileForm):
-    form_url_name = 'mentors:edit_profile'
-
     class Meta:
         model = MentorProfile
         fields = ('image', 'bio', 'experience', 'availability')

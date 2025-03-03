@@ -8,8 +8,6 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
 
     path('register-choice/', views.register_choice, name='register_choice'),
-    # moved register-user
-    # moved register-mentor
 
     path('verify-email/<uidb64>/<token>/', views.verify_email, name='verify_email'),
 ]

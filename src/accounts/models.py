@@ -187,8 +187,6 @@ class BaseProfile(models.Model):
         if self.image and self.image != DEFAULT_IMAGE_PATH:
             try:
                 self.image = compress(self.image)
-                # new_filename = shortuuid.uuid()
-                # self.image.
             except Exception as error:
                 send_log(logger, f'Image compression failed for {self.user.username}: {error}.', level='error')
                 raise

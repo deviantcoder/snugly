@@ -107,16 +107,10 @@ class BaseAppUserCreationForm(UserCreationForm):
         return username.strip().lower()
 
 
-# moved UserCreationForm
-
-
-# moved MentorCreationForm
-
-
 class BaseProfileForm(forms.ModelForm):
-    form_url_name = None
-
     def __init__(self, *args, **kwargs):
+        self.form_url_name = kwargs.pop('form_url_name', None)
+
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()
@@ -128,13 +122,11 @@ class BaseProfileForm(forms.ModelForm):
                 'hx-encoding': 'multipart/form-data',
                 'hx-trigger': 'submit',
             }
-        else:
-            raise ValueError("Subclasses of BaseProfileForm must define 'form_url_name'")
 
         self.base_layout = Layout(
             HTML('<div class="modal-footer border-0 pt-0 px-4">'),
             Submit('submit', 'Save', css_class='btn btn-primary radius-md px-4 fw-medium', css_id='submit-btn'),
-            HTML('<button type="button" class="btn btn-outline-secondary radius-md px-4 fw-medium" data-bs-dismiss="modal"><i class="bi bi-x-circle me-2"></i> Close</button>'),
+            # HTML('<button type="button" class="btn btn-outline-secondary radius-md px-4 fw-medium" data-bs-dismiss="modal"><i class="bi bi-x-circle me-2"></i> Close</button>'),
             HTML('</div>')
         )
         self.helper.layout = self.base_layout
@@ -148,9 +140,3 @@ class BaseProfileForm(forms.ModelForm):
             fields_layout,
             self.base_layout
         )
-
-
-# moved MentorProfileForm
-
-
-# moved UserProfileForm

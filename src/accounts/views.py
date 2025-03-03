@@ -59,12 +59,6 @@ def register_choice(request):
     return render(request, 'accounts/register_choice.html', context)
 
 
-#  moved register_user
-
-
-# moved register_mentor
-
-
 def verify_email(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -79,7 +73,10 @@ def verify_email(request, uidb64, token):
         user.save()
         login(request, user)
         messages.success(request, "Welcome!")
-        return redirect('/')
-    
+
+        redirect_url = 'mentors:edit_mentor_profile' if user.role == User.Roles.MENTOR else 'users:edit_user_profile'
+
+        return redirect(redirect_url)
+    user.delete()
     return render(request, 'accounts/emails/verify_email_failed.html', {'title': 'Email Failed'})
 

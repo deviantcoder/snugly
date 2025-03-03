@@ -27,8 +27,6 @@ class UserCreationForm(BaseAppUserCreationForm):
         
 
 class UserProfileForm(BaseProfileForm):
-    form_url_name = 'accounts:edit_profile'
-
     class Meta:
         model = UserProfile
         fields = ('image', 'bio')
