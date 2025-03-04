@@ -9,9 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.welcome_view, name='welcome'),
     path('accounts/', include('accounts.urls')),
-    path('mentors/', include('mentors.urls')),
-    path('users/', include('users.urls')),
+    path('profiles/', include('profiles.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

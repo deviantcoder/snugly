@@ -105,38 +105,3 @@ class BaseAppUserCreationForm(UserCreationForm):
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError('This username is already in use.')
         return username.strip().lower()
-
-
-class BaseProfileForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        self.form_url_name = kwargs.pop('form_url_name', None)
-
-        super().__init__(*args, **kwargs)
-
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-
-        if self.form_url_name:
-            self.helper.attrs = {
-                'hx-post': reverse(self.form_url_name),
-                'hx-encoding': 'multipart/form-data',
-                'hx-trigger': 'submit',
-            }
-
-        self.base_layout = Layout(
-            HTML('<div class="modal-footer border-0 pt-0 px-4">'),
-            Submit('submit', 'Save', css_class='btn btn-primary radius-md px-4 fw-medium', css_id='submit-btn'),
-            # HTML('<button type="button" class="btn btn-outline-secondary radius-md px-4 fw-medium" data-bs-dismiss="modal"><i class="bi bi-x-circle me-2"></i> Close</button>'),
-            HTML('</div>')
-        )
-        self.helper.layout = self.base_layout
-
-    def append_fields(self, fields_layout):
-        """
-        Helper method to append fields to the base layout.
-        """
-
-        self.helper.layout = Layout(
-            fields_layout,
-            self.base_layout
-        )

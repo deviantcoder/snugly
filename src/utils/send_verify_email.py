@@ -26,7 +26,7 @@ def send_verify_email(user):
 
     subject = 'Verify your email address'
     message = render_to_string(
-        'accounts/emails/verify_email.html',
+        'emails/verify_email.html',
         {
             'user': user,
             'verify_url': verify_url,

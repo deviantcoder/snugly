@@ -7,8 +7,13 @@
 {% block content %}
     <h1>Welcome!</h1>
 
+    <h3>User profile</h3>
+    {% if user.is_authenticated %}
+        {{request.user.profile}}
+    {% endif %}
+
     <div>
         <a href="{% url 'accounts:login' %}" class="btn btn-primary">Sign In</a>
-        <a href="{% url 'accounts:register_choice' %}" class="btn btn-primary">Sign Up</a>
+        <a href="{% url 'profiles:register_choice' %}" class="btn btn-primary">Sign Up</a>
     </div>
 {% endblock content %}

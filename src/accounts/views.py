@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import login, authenticate, logout, get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
@@ -48,17 +47,6 @@ def logout_user(request):
     return redirect('/')
 
 
-def register_choice(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-
-    context = {
-        'title': 'Sign Up Choice'
-    }
-
-    return render(request, 'accounts/register_choice.html', context)
-
-
 def verify_email(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -74,9 +62,12 @@ def verify_email(request, uidb64, token):
         login(request, user)
         messages.success(request, "Welcome!")
 
-        redirect_url = 'mentors:edit_mentor_profile' if user.role == User.Roles.MENTOR else 'users:edit_user_profile'
-
-        return redirect(redirect_url)
+        if user.role == User.Roles.MENTOR:
+            return redirect('profiles:edit_mentor_profile')
+        elif user.role == User.Roles.USER:
+            return redirect('profiles:edit_user_profile')
+        else:
+            return redirect('profiles:edit_user_profile')
+    
     user.delete()
-    return render(request, 'accounts/emails/verify_email_failed.html', {'title': 'Email Failed'})
-
+    return render(request, 'emails/verify_email_failed.html', {'title': 'Email Failed'})

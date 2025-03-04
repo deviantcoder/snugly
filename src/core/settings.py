@@ -9,7 +9,7 @@ SECRET_KEY = config('SECRET_KEY', cast=str)
 
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Email config
@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     # apps
     
     'accounts.apps.AccountsConfig',
+    'profiles.apps.ProfilesConfig',
+
     'users.apps.UsersConfig',
     'mentors.apps.MentorsConfig',
-    'managers.apps.ManagersConfig',
+    
     'commands.apps.CommandsConfig',
 ]
 

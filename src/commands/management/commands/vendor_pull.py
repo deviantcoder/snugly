@@ -9,6 +9,7 @@ VENDOR_FILES = {
     'bootstrap.min.css': 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
     'comfortaa.css': 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap',
     'bootstrap.bundle.min.js': 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
+    'bootstrap.bundle.min.js.map': 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js.map',
 }
 
 
