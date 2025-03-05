@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.welcome_view, name='welcome'),
     path('accounts/', include('accounts.urls')),
     path('profiles/', include('profiles.urls')),
+    path('mentors/', include('mentors.urls')),
 ]
 
 if settings.DEBUG:

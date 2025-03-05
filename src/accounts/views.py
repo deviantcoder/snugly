@@ -62,7 +62,7 @@ def verify_email(request, uidb64, token):
         login(request, user)
         messages.success(request, "Welcome!")
         return redirect('profiles:edit_profile')
-    elif user:
+    elif user and not user.email_verified:
         user.delete()
     
     return render(request, 'emails/verify_email_failed.html', {'title': 'Email Failed'})
