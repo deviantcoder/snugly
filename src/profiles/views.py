@@ -64,41 +64,31 @@ def edit_profile(request, role: str = 'user'):
         request.user.Roles.MENTOR: 'mentor',
     }
 
-    user_role = role_map.get(request.user.role, 'user')\
-    
-    if role != user_role:
-        return render(request, '404.html')
+    user_role = role_map.get(request.user.role, 'user')
 
     role_config = {
         'user': {
             'form': UserProfileForm,
             'title': 'Edit User Profile',
             'template': 'profiles/edit_user_profile.html',
-            'form_url': 'profiles:edit_user_profile',
-            'redirect_url': 'profiles:edit_user_profile',
         },
         'mentor': {
             'form': MentorProfileForm,
             'title': 'Edit Mentor Profile',
             'template': 'profiles/edit_mentor_profile.html',
-            'form_url': 'profiles:edit_mentor_profile',
-            'redirect_url': 'profiles:edit_mentor_profile',
         }
     }
-
-    if role not in role_config:
-        return Http404()
     
-    config = role_config[role]
+    config = role_config[user_role]
 
     if request.method == 'POST':
-        form = config['form'](request.POST, request.FILES, instance=profile, form_url_name=config['form_url'])
+        form = config['form'](request.POST, request.FILES, instance=profile, form_url_name='profiles:edit_profile')
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile was updated')
-            return redirect(config['redirect_url'])
+            return redirect('profiles:edit_profile')
     else:
-        form = config['form'](instance=profile, form_url_name=config['form_url'])
+        form = config['form'](instance=profile, form_url_name='profiles:edit_profile')
 
     context = {
         'form': form,

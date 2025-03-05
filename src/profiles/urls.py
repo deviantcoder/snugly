@@ -9,6 +9,5 @@ urlpatterns = [
     path('register-user/', views.register, kwargs={'role': 'user'}, name='register_user'),
     path('register-mentor/', views.register, kwargs={'role': 'mentor'}, name='register_mentor'),
 
-    path('edit-user-profile/', views.edit_profile, kwargs={'role': 'user'}, name='edit_user_profile'),
-    path('edit-mentor-profile/', views.edit_profile, kwargs={'role': 'mentor'}, name='edit_mentor_profile'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
 ]
