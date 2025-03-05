@@ -61,13 +61,13 @@ def verify_email(request, uidb64, token):
         user.save()
         login(request, user)
         messages.success(request, "Welcome!")
-
         if user.role == User.Roles.MENTOR:
             return redirect('profiles:edit_mentor_profile')
         elif user.role == User.Roles.USER:
             return redirect('profiles:edit_user_profile')
         else:
             return redirect('profiles:edit_user_profile')
+    elif user:
+        user.delete()
     
-    user.delete()
     return render(request, 'emails/verify_email_failed.html', {'title': 'Email Failed'})

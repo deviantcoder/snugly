@@ -1,5 +1,66 @@
-<div class="mb-4 border border-dark">
-    <h3>Navbar</h3>
-    <a href="/">Home</a>
-    <a href="{% url 'accounts:logout' %}">Log out</a>
-</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/"><i class="bi bi-chat-heart h5"></i> Snugly</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-house-door"></i>
+                            Home</a></li>
+                    <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-chat-dots"></i>
+                            Chats</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link hover-grow-sm" href="">
+                            <i class="bi bi-person-check"></i>
+                            Mentors
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link hover-grow-sm" href="">
+                            <i class="bi bi-columns"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        {% if request.user.role == 'admin' %}
+                            <a class="nav-link hover-grow-sm" href="{% url 'admin:index' %}"><i class="bi bi-gear"></i> Admin Panel</a>
+                        {% else %}
+                            <div class="dropdown">
+                                <button class="nav-link hover-grow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-person"></i>
+                                    Profile
+                                </button>    
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="">
+                                            <i class="bi bi-person me-2"></i> View Profile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="">
+                                            <i class="bi bi-pencil-square me-2"></i> Edit Profile
+                                        </a>
+                                    </li>
+                                    <hr>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">
+                                            <i class="bi bi-box-arrow-right me-2"></i> Log out
+                                        </a>
+                                    </li>
+                                </ul>                      
+                            </div>
+                        {% endif %}  
+                    </li>
+
+                {% endif %}
+                <li class="nav-item"><a class="nav-link hover-grow-sm" href="#"><i class="bi bi-question-circle"></i>
+                        Help</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
