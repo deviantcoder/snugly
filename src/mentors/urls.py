@@ -7,4 +7,5 @@ app_name = 'mentors'
 urlpatterns = [
     path('', views.mentors_list, name='mentors_list'),
     path('profile-overview/<str:username>/', views.profile_overview, name='profile_overview'),
+    path('profile/<str:username>/', views.mentor_profile, name='mentor_profile'),
 ]

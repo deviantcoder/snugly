@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4 border-0 radius-md">
+        <div class="text-center">
+            <img src="{{ profile.image.url }}" 
+                class="rounded-circle mx-auto d-block img-fluid border border-3 border-info shadow-lg mb-3"
+                alt="Profile Picture"
+                style="width: 120px; height: 120px; object-fit: cover;">
+            <h2>{{ profile.full_name }}</h2>
+            <p class="text-muted">Professional Mentor | 5+ years of experience</p>
+            <p><i class="bi bi-star-fill text-warning"></i> 4.8 / 5 (56 reviews)</p>
+            <!-- <a href="#" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Edit Profile</a> -->
+        </div>
+        
+        <hr>
+
+        <div class="p-2 mb-3">
+            <h4><i class="bi bi-person-lines-fill"></i> About Me</h4>
+            <span>
+                {{ profile.bio }}
+            </span>
+        </div>
+
+        <div class="p-2 mb-3">
+            <h4><i class="bi bi-list-stars"></i> Topics I Can Help With</h4>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                <span class="badge bg-primary dimmed-blue text-light hover-grow-sm radius-md p-2"><i class="bi bi-heart"></i> Emotional Support</span>
+                <span class="badge bg-primary dimmed-blue text-light hover-grow-sm radius-md p-2"><i class="bi bi-heart"></i> Emotional Support</span>
+                <span class="badge bg-primary dimmed-blue text-light hover-grow-sm radius-md p-2"><i class="bi bi-heart"></i> Emotional Support</span>
+                <span class="badge bg-primary dimmed-blue text-light hover-grow-sm radius-md p-2"><i class="bi bi-heart"></i> Emotional Support</span>
+                <span class="badge bg-primary dimmed-blue text-light hover-grow-sm radius-md p-2"><i class="bi bi-heart"></i> Emotional Support</span>
+            </div>
+        </div>
+
+        <div class="p-2 mb-3">
+            <h4><i class="bi bi-calendar-check"></i> Available Time Slots</h4>
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday</td>
+                        <td>10:00 AM - 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>3:00 PM - 6:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>9:00 AM - 12:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <button class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Edit Availability</button> -->
+        </div>
+        
+
+        <div class="p-2">
+            <h4><i class="bi bi-chat-left-quote"></i> User Reviews</h4>
+            <div class="card p-3 mb-2 radius-md">
+                <p><strong>Alice:</strong> "John was very helpful and understanding. I feel much better after our session!"</p>
+            </div>
+            <div class="card p-3 mb-2 radius-md">
+                <p><strong>Mike:</strong> "Great mentor! Gave me valuable career advice."</p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-secondary radius-md"><i class="bi bi-folder"></i> View All Reviews</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

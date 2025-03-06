@@ -26,3 +26,14 @@ def profile_overview(request, username: str):
     }
 
     return render(request, 'mentors/partials/profile_overview.html', context)
+
+
+def mentor_profile(request, username: str):
+    profile = get_object_or_404(User, username=username).profile
+
+    context = {
+        'profile': profile,
+        'title': profile.full_name
+    }
+
+    return render(request, 'mentors/mentor_profile.html', context)
